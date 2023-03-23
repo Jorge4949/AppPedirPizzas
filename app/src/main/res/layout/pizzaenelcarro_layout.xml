@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="30dp">
+    <ImageView
+        android:id="@+id/imagen_pizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pizza_image"
+        android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/nombre_pizza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pizza"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:paddingHorizontal="30dp"/>
+        <TextView
+            android:id="@+id/precio_pizza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Precio €"
+            android:gravity="center"
+            android:textSize="30dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/boton_quitardelcarro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:text="Quitar del carro"
+            android:textColor="@android:color/holo_green_dark"
+            android:gravity="center"
+            android:foregroundGravity="center"
+            android:onClick="añadirPizza"/>
+    </LinearLayout>
+</LinearLayout>
