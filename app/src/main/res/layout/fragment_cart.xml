@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.CartFragment">
+    tools:context=".view.MainActivity"
+    android:id="@+id/fragment_listado_pizzas_enelcarro">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listado_carro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FUNCIONO CART FRAGMENT" />
+        android:foregroundGravity="center"
+        android:layout_gravity="center"
+        />
 
 </FrameLayout>

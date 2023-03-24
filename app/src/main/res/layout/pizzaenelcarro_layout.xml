@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
         <TextView
-            android:id="@+id/nombre_pizza"
+            android:id="@+id/nombre_pizza_enelcarro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza"
@@ -24,7 +24,7 @@
             android:textSize="30dp"
             android:paddingHorizontal="30dp"/>
         <TextView
-            android:id="@+id/precio_pizza"
+            android:id="@+id/precio_pizza_enelcarro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Precio €"
@@ -44,7 +44,6 @@
             android:text="Quitar del carro"
             android:textColor="@android:color/holo_green_dark"
             android:gravity="center"
-            android:foregroundGravity="center"
-            android:onClick="añadirPizza"/>
+            android:foregroundGravity="center" />
     </LinearLayout>
 </LinearLayout>

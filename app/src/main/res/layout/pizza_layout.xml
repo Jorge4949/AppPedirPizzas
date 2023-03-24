@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
         <TextView
-            android:id="@+id/nombre_pizza_main"
+            android:id="@+id/nombre_pizza"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza"
