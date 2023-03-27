@@ -1,26 +1,48 @@
 package com.example.apppizzas.viewModel
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import com.example.apppizzas.model.PizzaModel
 
-class CarroViewModel:ViewModel() {
-    //public val carro:MutableList<PizzaModel> = ListViewMod
+class CarroViewModel(application: Application) : AndroidViewModel(application) {
+    var sharedPreferences: SharedPreferences = application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
+    var editor: SharedPreferences.Editor = sharedPreferences.edit()
+    lateinit var carro:List<PizzaModel>
+    public fun updateCart(){
+        carro = listOf()
 
-    var pizza_margarita: PizzaModel = PizzaModel("Margarita", mutableListOf("Tomate","Queso"), 12F)
-    var pizza_cuatroquesos: PizzaModel = PizzaModel("4 Quesos", mutableListOf("Tomate","Queso1","Queso2","Queso3","Queso4"))
-    var pizza_carnivora: PizzaModel = PizzaModel("Carnivora", mutableListOf("Tomate","Queso","Pepperoni","Carne picada"))
 
-    //coger el array del sharedpreferences
-    var pizzas_enelcarro = arrayListOf<PizzaModel>(pizza_margarita,pizza_carnivora,pizza_cuatroquesos)
-
-    //igual que en el listviewmodel
+        for (i in 1..sharedPreferences.getInt("num_pizzas_totales",0)){
+            val nombre_pizza = sharedPreferences.getString("nombre_${i}","Vacio")
+            val precio_pizza = sharedPreferences.getFloat("precio_${i}", 0f)
+            val ingredientes_set_pizza = sharedPreferences.getStringSet("ingredientes_${i}", mutableSetOf())
+            val ingredientes_pizza:MutableList<String> = ingredientes_set_pizza!!.toMutableList()
+            val pizza = PizzaModel(nombre_pizza!!,ingredientes_pizza,precio_pizza)
+            if (nombre_pizza != "Vacio") {
+                carro += pizza
+            }
+            //println(carro)
+        }
+    }
     public fun quitar_del_carro(pizza: PizzaModel){
-        if (pizzas_enelcarro.contains(pizza)) {
-            pizzas_enelcarro.removeAt(pizzas_enelcarro.indexOf(pizza))
-        }else{
-            println("${pizza.nombre} ya esta borrada aunque no la veas")
+        var num_pizza: Int = 0
+        for (i in 1..sharedPreferences.getInt("num_pizzas_totales", 0)) {
+            if (pizza.nombre == sharedPreferences.getString("nombre_${i}", "")) {
+                num_pizza = i
+                break
+            }
+        }
+
+        if (num_pizza != 0) {
+            editor.apply {
+                remove("nombre_${num_pizza}")
+                remove("precio_${num_pizza}")
+                remove("ingredientes_${num_pizza}")
+            }.apply()
         }
     }
 }

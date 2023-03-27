@@ -55,13 +55,6 @@
             android:foregroundGravity="center" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listado_ingredientes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundGravity="center"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
     <!--<TextView
         android:id="@+id/prueba_visibilidad"
         android:layout_width="match_parent"

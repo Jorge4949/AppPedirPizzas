@@ -34,22 +34,12 @@ class ReciclerViewPizzasAdapter(private val lista_pizzas: List<PizzaModel>, priv
     public class ViewHolder(private val binding: PizzaLayoutBinding, private val listener: funcionalidad_botones_list):RecyclerView.ViewHolder(binding.root){
 
 
-        /*Este codigo ya no es necesario ya que utilizo viewBinding
-        var visibilidad_ingredientes = false
-        val pizza_nombre = itemView.findViewById(R.id.nombre_pizza) as TextView
-        val pizza_precio = itemView.findViewById(R.id.precio_pizza) as TextView
-        val boton_añadir = itemView.findViewById(R.id.boton_añadiralcarro) as AppCompatButton
-        val boton_personalizar = itemView.findViewById(R.id.boton_personalizar) as AppCompatButton
-        val lista_ingredientes = itemView.findViewById(R.id.listado_ingredientes) as RecyclerView*/
-        //val prueba_visibilidad = itemView.findViewById(R.id.prueba_visibilidad) as TextView
-
         fun bind(pizza:PizzaModel){
             binding.nombrePizza.setText(pizza.nombre)
             binding.precioPizza.text = "${pizza.precio.toString()} €"
 
             binding.botonAAdiralcarro.setOnClickListener{ listener.añadirPizzaAlCarro(pizza) }
             binding.botonPersonalizar.setOnClickListener{ listener.mostrarPersonalizar(pizza) }
-
 
         }
 

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         context = this
 
-        sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("listado_pizzas", MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
         //val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
@@ -61,6 +61,16 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.zona_fragment, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        editor.clear().apply()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        editor.clear().apply()
     }
 
 }
