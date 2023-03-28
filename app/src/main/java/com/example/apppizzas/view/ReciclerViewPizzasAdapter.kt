@@ -1,4 +1,4 @@
-package com.example.apppizzas
+package com.example.apppizzas.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,15 +13,14 @@ class ReciclerViewPizzasAdapter(private val lista_pizzas: List<PizzaModel>, priv
     lateinit var context:Context
     lateinit var binding: PizzaLayoutBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReciclerViewPizzasAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         binding = PizzaLayoutBinding.inflate(LayoutInflater.from(context))
 
-        //val itemView = LayoutInflater.from(context).inflate(R.layout.pizza_layout, parent, false)
         return ViewHolder(binding, listener)
     }
 
-    override fun onBindViewHolder(holder: ReciclerViewPizzasAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val pizza: PizzaModel = lista_pizzas[position]
         holder.bind(pizza)
@@ -32,8 +31,6 @@ class ReciclerViewPizzasAdapter(private val lista_pizzas: List<PizzaModel>, priv
     }
 
     public class ViewHolder(private val binding: PizzaLayoutBinding, private val listener: funcionalidad_botones_list):RecyclerView.ViewHolder(binding.root){
-
-
         fun bind(pizza:PizzaModel){
             binding.nombrePizza.setText(pizza.nombre)
             binding.precioPizza.text = "${pizza.precio.toString()} €"

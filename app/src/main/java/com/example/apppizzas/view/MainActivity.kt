@@ -20,35 +20,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        //setContentView(R.layout.activity_main)
         setContentView(binding.root)
         context = this
 
         sharedPreferences = getSharedPreferences("listado_pizzas", MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
-        //val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
         binding.navigation.setOnItemSelectedListener{
             when(it.toString().toLowerCase()) {
                 "home" ->{
                     loadFragment(ListFragment())
-                    //Toast.makeText(context,"BOTON HOME PULSADO", Toast.LENGTH_SHORT).show()
                     true
                 }
                 "cart"->{
                     loadFragment(CartFragment())
-                    //Toast.makeText(context,"BOTON CART PULSADO", Toast.LENGTH_SHORT).show()
                     true
                 }
                 "search"->{
                     loadFragment(SearchFragment())
-                    //Toast.makeText(context,"BOTON SEARCH PULSADO", Toast.LENGTH_SHORT).show()
                     true
                 }else ->{
-                    //Toast.makeText(context,it.toString(), Toast.LENGTH_SHORT).show()
                     true
                 }
-
             }
         }
 

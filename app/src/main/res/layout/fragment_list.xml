@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity"
-    android:id="@+id/fragment_listado_pizzas">
+    android:id="@+id/fragment_listado_pizzas"
+    android:layout_gravity="center">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listado_pizzas"
@@ -13,10 +14,4 @@
         android:foregroundGravity="center"
         android:layout_gravity="center"
         />
-    <!--
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FUNCIONO FRAGMENT DE LA LISTA"/>
-    -->
 </FrameLayout>

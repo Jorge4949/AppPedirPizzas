@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="30dp">
+    android:gravity="center">
     <ImageView
         android:id="@+id/imagen_pizza"
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
         <TextView
-            android:id="@+id/nombre_pizza"
+            android:id="@+id/nombre_pizza_personalizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pizza"
@@ -24,28 +24,23 @@
             android:textSize="30dp"
             android:paddingHorizontal="30dp"/>
         <TextView
-            android:id="@+id/precio_pizza"
+            android:id="@+id/precio_pizza_personalizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Precio €"
             android:gravity="center"
             android:textSize="30dp"/>
     </LinearLayout>
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/personalizar_pizza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:foregroundGravity="center"
+        android:layout_gravity="center"
+        />
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/boton_personalizar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/holo_green_dark"
-            android:text="Personalizar"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:foregroundGravity="center"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/boton_añadiralcarro"
+            android:id="@+id/boton_añadiralcarro_personalizar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
@@ -53,6 +48,7 @@
             android:textColor="@android:color/holo_green_dark"
             android:gravity="center"
             android:foregroundGravity="center" />
-    </LinearLayout>
+
+
 
 </LinearLayout>

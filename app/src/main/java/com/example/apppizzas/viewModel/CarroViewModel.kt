@@ -5,16 +5,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apppizzas.model.PizzaModel
 
 class CarroViewModel(application: Application) : AndroidViewModel(application) {
     var sharedPreferences: SharedPreferences = application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
-    lateinit var carro:List<PizzaModel>
-    public fun updateCart(){
-        carro = listOf()
 
+    //lateinit var carro:List<PizzaModel>
+    //lateinit var carro:MutableList<PizzaModel>
+    var carro_liveData: MutableLiveData<MutableList<PizzaModel>> = MutableLiveData()
+    public fun updateCart(){
+        //carro = listOf()
+        //carro = mutableListOf()
 
         for (i in 1..sharedPreferences.getInt("num_pizzas_totales",0)){
             val nombre_pizza = sharedPreferences.getString("nombre_${i}","Vacio")
@@ -23,10 +28,11 @@ class CarroViewModel(application: Application) : AndroidViewModel(application) {
             val ingredientes_pizza:MutableList<String> = ingredientes_set_pizza!!.toMutableList()
             val pizza = PizzaModel(nombre_pizza!!,ingredientes_pizza,precio_pizza)
             if (nombre_pizza != "Vacio") {
-                carro += pizza
+                //carro += pizza
+                carro_liveData.value!!.add(pizza)
             }
-            //println(carro)
         }
+        //carro_liveData.postValue(carro)
     }
     public fun quitar_del_carro(pizza: PizzaModel){
         var num_pizza: Int = 0

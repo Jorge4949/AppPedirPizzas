@@ -2,13 +2,17 @@ package com.example.apppizzas.viewModel
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import com.example.apppizzas.model.PizzaModel
+import com.example.apppizzas.view.PersonalizarActivity
 
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
+    var context:Context = application.baseContext
+
     var sharedPreferences: SharedPreferences = application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
 
@@ -32,6 +36,12 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             putInt("pizza_num${num_pizzas_totales}",num_pizzas_totales)
             putInt("num_pizzas_totales", num_pizzas_totales)
         }.apply()
+    }
+
+    public fun mostrarPersonalizar(pizza: PizzaModel){
+        val intent = Intent(context,PersonalizarActivity::class.java)
+        intent.putExtra("pizza", pizza)
+        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
 }
