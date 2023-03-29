@@ -24,9 +24,9 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
     public fun añadirPizza(pizza: PizzaModel){
         var num_pizzas_totales = sharedPreferences.getInt("num_pizzas_totales",0)
-        var ingredientes_set:Set<String> = setOf()
+        var ingredientes_set:MutableSet<String> = mutableSetOf()
         pizza.ingredientes.forEach {
-            ingredientes_set.plus(it)
+            ingredientes_set.add(it)
         }
         num_pizzas_totales ++
         editor.apply {

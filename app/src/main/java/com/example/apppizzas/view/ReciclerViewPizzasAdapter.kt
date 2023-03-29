@@ -1,6 +1,7 @@
 package com.example.apppizzas.view
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +33,7 @@ class ReciclerViewPizzasAdapter(private val lista_pizzas: List<PizzaModel>, priv
 
     public class ViewHolder(private val binding: PizzaLayoutBinding, private val listener: funcionalidad_botones_list):RecyclerView.ViewHolder(binding.root){
         fun bind(pizza:PizzaModel){
-            binding.nombrePizza.setText(pizza.nombre)
+            binding.nombrePizza.text = pizza.nombre
             binding.precioPizza.text = "${pizza.precio.toString()} €"
 
             binding.botonAAdiralcarro.setOnClickListener{ listener.añadirPizzaAlCarro(pizza) }

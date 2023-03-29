@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:text="Ingrediente"
         android:gravity="center"
-        android:checked="true"/>
+        android:checked="false"/>
 </LinearLayout>

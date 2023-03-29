@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppizzas.R
+import com.example.apppizzas.databinding.FragmentCartBinding
 import com.example.apppizzas.model.PizzaModel
 import com.example.apppizzas.viewModel.CarroViewModel
 import com.example.apppizzas.viewModel.funcionalidad_boton_quitar
@@ -17,31 +18,35 @@ import com.example.apppizzas.viewModel.funcionalidad_boton_quitar
 
 class CartFragment : Fragment(), funcionalidad_boton_quitar {
     lateinit var recyclerViewCarro: RecyclerView
-    lateinit var adapter: ReciclerViewCarroAdapter
+    var adapter: ReciclerViewCarroAdapter ?= null
     val modelView:CarroViewModel by viewModels()
+    lateinit var binding: FragmentCartBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val vista = inflater.inflate(R.layout.fragment_cart, container, false)
+        binding = FragmentCartBinding.inflate(inflater,container,false)
+        val vista = binding.root
 
-        recyclerViewCarro = vista.findViewById(R.id.listado_carro)
+        recyclerViewCarro = binding.listadoCarro
         recyclerViewCarro.layoutManager = LinearLayoutManager(context)
-        modelView.updateCart()
-        adapter = ReciclerViewCarroAdapter(modelView.carro_liveData.value!!,this)
-        recyclerViewCarro.adapter = adapter
-        //updateView()
-        modelView.carro_liveData.observe(viewLifecycleOwner, Observer {
-            updateView(it)
-        })
 
+        modelView.carro_liveData.observe(viewLifecycleOwner, Observer { pizza ->
+            adapter?.let {
+                updateView(pizza)
+            }?:run {
+                adapter = ReciclerViewCarroAdapter(pizza,this)
+                recyclerViewCarro.adapter = adapter
+            }
+        })
         return vista
     }
 
     override fun onResume() {
         super.onResume()
+        modelView.updateCart()
     }
 
     override fun quitar_del_carro(pizza: PizzaModel) {
@@ -49,8 +54,7 @@ class CartFragment : Fragment(), funcionalidad_boton_quitar {
     }
 
     private fun updateView(updated_lista:MutableList<PizzaModel>){
-        modelView.updateCart()
-        adapter.updateCarro(updated_lista)
+        adapter?.updateCarro(updated_lista)
     }
 
 }

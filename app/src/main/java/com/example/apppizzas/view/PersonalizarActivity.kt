@@ -1,8 +1,10 @@
 package com.example.apppizzas.view
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.CheckBox
 import androidx.activity.viewModels
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,8 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
     lateinit var recyclerViewIngredientes: RecyclerView
     lateinit var context:Context
     val viewModel:PersonalizarViewModel by viewModels()
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +28,30 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
         binding = ActivityPersonalizarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences = getSharedPreferences("listado_pizzas", MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+
         val pizza:PizzaModel? = intent.getParcelableExtra("pizza")
         cargarVista(pizza!!)
 
         recyclerViewIngredientes = binding.personalizarPizza
         recyclerViewIngredientes.layoutManager = LinearLayoutManager(context)
-        recyclerViewIngredientes.adapter = ReciclerViewPersonalizarAdapter(pizza!!.ingredientes)
+        recyclerViewIngredientes.adapter = ReciclerViewPersonalizarAdapter(pizza!!.ingredientes, this)
 
         binding.botonAAdiralcarroPersonalizar.setOnClickListener {
-            var ingredientes:MutableList<String> = mutableListOf()
-            binding.personalizarPizza.children.forEach {
-                if (it.isChecked)
-            }
+            var ingredientes = mutableListOf<String>()
+            ingredientes.addAll(sharedPreferences.getStringSet("ingredientes", mutableSetOf())!!)
+            var pizza_personalizada = PizzaModel(pizza.nombre,ingredientes,pizza.precio)
             añadirPizzaPersonalizadAlCarro(pizza_personalizada)
         }
     }
 
     override fun añadirPizzaPersonalizadAlCarro(pizza: PizzaModel) {
         viewModel.añadirPizzaPersonalizadAlCarro(pizza)
+    }
+
+    override fun cambiarEstadoIngrediente(checkbox: CheckBox) {
+        viewModel.cambiarEstadoIngrediente(checkbox)
     }
 
     private fun cargarVista(pizza: PizzaModel){

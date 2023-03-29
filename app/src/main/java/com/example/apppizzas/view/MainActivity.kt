@@ -58,12 +58,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        editor.clear().apply()
     }
 
     override fun onStop() {
         super.onStop()
-        editor.clear().apply()
     }
 
 }
