@@ -6,8 +6,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
 import com.example.apppizzas.view.PersonalizarActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,19 +26,21 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     var pizzas_disponibles = arrayListOf<PizzaModel>(pizza_margarita,pizza_carnivora,pizza_cuatroquesos)
 
     public fun añadirPizza(pizza: PizzaModel){
-        var num_pizzas_totales = sharedPreferences.getInt("num_pizzas_totales",0)
-        var ingredientes_set:MutableSet<String> = mutableSetOf()
-        pizza.ingredientes.forEach {
-            ingredientes_set.add(it)
+        viewModelScope.launch{
+            var num_pizzas_totales = sharedPreferences.getInt("num_pizzas_totales",0)
+            var ingredientes_set:MutableSet<String> = mutableSetOf()
+            pizza.ingredientes.forEach {
+                ingredientes_set.add(it)
+            }
+            num_pizzas_totales ++
+            editor.apply {
+                putString("nombre_${num_pizzas_totales}",pizza.nombre)
+                putFloat("precio_${num_pizzas_totales}",pizza.precio)
+                putStringSet("ingredientes_${num_pizzas_totales}",ingredientes_set)
+                putInt("pizza_num${num_pizzas_totales}",num_pizzas_totales)
+                putInt("num_pizzas_totales", num_pizzas_totales)
+            }.apply()
         }
-        num_pizzas_totales ++
-        editor.apply {
-            putString("nombre_${num_pizzas_totales}",pizza.nombre)
-            putFloat("precio_${num_pizzas_totales}",pizza.precio)
-            putStringSet("ingredientes_${num_pizzas_totales}",ingredientes_set)
-            putInt("pizza_num${num_pizzas_totales}",num_pizzas_totales)
-            putInt("num_pizzas_totales", num_pizzas_totales)
-        }.apply()
     }
 
     public fun mostrarPersonalizar(pizza: PizzaModel){

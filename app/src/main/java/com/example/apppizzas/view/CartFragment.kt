@@ -22,10 +22,6 @@ class CartFragment : Fragment(), funcionalidad_boton_quitar {
     val modelView:CarroViewModel by viewModels()
     lateinit var binding: FragmentCartBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCartBinding.inflate(inflater,container,false)
         val vista = binding.root

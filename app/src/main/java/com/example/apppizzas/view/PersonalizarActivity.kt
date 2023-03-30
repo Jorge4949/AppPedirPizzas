@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CheckBox
 import androidx.activity.viewModels
-import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppizzas.databinding.ActivityPersonalizarBinding
@@ -32,17 +31,14 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
         editor = sharedPreferences.edit()
 
         val pizza:PizzaModel? = intent.getParcelableExtra("pizza")
-        cargarVista(pizza!!)
+        cargarVista(pizza)
 
         recyclerViewIngredientes = binding.personalizarPizza
         recyclerViewIngredientes.layoutManager = LinearLayoutManager(context)
         recyclerViewIngredientes.adapter = ReciclerViewPersonalizarAdapter(pizza!!.ingredientes, this)
 
         binding.botonAAdiralcarroPersonalizar.setOnClickListener {
-            var ingredientes = mutableListOf<String>()
-            ingredientes.addAll(sharedPreferences.getStringSet("ingredientes", mutableSetOf())!!)
-            var pizza_personalizada = PizzaModel(pizza.nombre,ingredientes,pizza.precio)
-            añadirPizzaPersonalizadAlCarro(pizza_personalizada)
+            añadirPizzaPersonalizadAlCarro(pizza)
         }
     }
 
@@ -54,8 +50,8 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
         viewModel.cambiarEstadoIngrediente(checkbox)
     }
 
-    private fun cargarVista(pizza: PizzaModel){
-        binding.nombrePizzaPersonalizar.setText(pizza.nombre)
-        binding.precioPizzaPersonalizar.setText("${pizza.precio} €")
+    private fun cargarVista(pizza: PizzaModel?){
+        binding.nombrePizzaPersonalizar.setText(pizza?.nombre)
+        binding.precioPizzaPersonalizar.setText("${pizza?.precio} €")
     }
 }

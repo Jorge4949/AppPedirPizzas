@@ -52,16 +52,8 @@ class MainActivity : AppCompatActivity() {
     }
     private fun loadFragment(fragment:Fragment){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.zona_fragment, fragment)
+        fragmentTransaction.replace(binding.zonaFragment.id, fragment)
         fragmentTransaction.commit()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
 }
