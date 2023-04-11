@@ -11,14 +11,19 @@
         android:id="@+id/zona_elementos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        android:foregroundGravity="center">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/tituloCompose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--<TextView
             android:id="@+id/titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,15 +34,15 @@
             android:paddingVertical="10dp"
             android:text="PidePizza"
             android:textColor="@android:color/holo_orange_light"
-            android:textSize="50sp" />
+            android:textSize="50sp" />-->
 
         <LinearLayout
             android:id="@+id/zona_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:foregroundGravity="center"
             android:layout_marginBottom="60dp"
+            android:foregroundGravity="center"
             android:orientation="vertical" />
 
     </LinearLayout>
@@ -46,10 +51,10 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@android:color/holo_green_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/holo_green_dark"
         app:menu="@menu/navigation_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

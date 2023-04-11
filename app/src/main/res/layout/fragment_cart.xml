@@ -7,12 +7,17 @@
     android:layout_gravity="center"
     android:id="@+id/fragment_listado_pizzas_enelcarro">
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/listado_carro_compose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listado_carro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foregroundGravity="center"
         android:layout_gravity="center"
-        />
+        />-->
 
 </FrameLayout>
