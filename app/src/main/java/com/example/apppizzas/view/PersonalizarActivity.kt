@@ -1,44 +1,46 @@
 package com.example.apppizzas.view
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.CheckBox
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.apppizzas.databinding.ActivityPersonalizarBinding
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.dp
+import com.example.apppizzas.R
 import com.example.apppizzas.model.PizzaModel
 import com.example.apppizzas.viewModel.PersonalizarViewModel
 import com.example.apppizzas.viewModel.funcionalidad_personalizada
 
 class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
-    lateinit var binding: ActivityPersonalizarBinding
-    lateinit var recyclerViewIngredientes: RecyclerView
-    lateinit var context:Context
-    val viewModel:PersonalizarViewModel by viewModels()
-    lateinit var sharedPreferences: SharedPreferences
-    lateinit var editor: SharedPreferences.Editor
+    lateinit var context: Context
+    val viewModel: PersonalizarViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         context = this
-        binding = ActivityPersonalizarBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        sharedPreferences = getSharedPreferences("listado_pizzas", MODE_PRIVATE)
-        editor = sharedPreferences.edit()
-
-        val pizza:PizzaModel? = intent.getParcelableExtra("pizza")
-        cargarVista(pizza)
-
-        recyclerViewIngredientes = binding.personalizarPizza
-        recyclerViewIngredientes.layoutManager = LinearLayoutManager(context)
-        recyclerViewIngredientes.adapter = ReciclerViewPersonalizarAdapter(pizza!!.ingredientes, this)
-
-        binding.botonAAdiralcarroPersonalizar.setOnClickListener {
-            añadirPizzaPersonalizadAlCarro(pizza)
+        val pizza: PizzaModel? = intent.getParcelableExtra("pizza")
+        setContent {
+            if (pizza != null) {
+                personalizarPizza(pizza = pizza)
+            }
         }
     }
 
@@ -46,12 +48,78 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
         viewModel.añadirPizzaPersonalizadAlCarro(pizza)
     }
 
-    override fun cambiarEstadoIngrediente(checkbox: CheckBox) {
-        viewModel.cambiarEstadoIngrediente(checkbox)
+    override fun cambiarEstadoIngrediente(checked: Boolean, ingrediente: String) {
+        viewModel.cambiarEstadoIngrediente(checked, ingrediente)
     }
 
-    private fun cargarVista(pizza: PizzaModel?){
-        binding.nombrePizzaPersonalizar.setText(pizza?.nombre)
-        binding.precioPizzaPersonalizar.setText("${pizza?.precio} €")
+    @Composable
+    fun personalizarPizza(pizza: PizzaModel) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(vertical = 80.dp)
+        ) {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Image(
+                    painter = painterResource(id = R.drawable.pizza_image),
+                    contentDescription = "Imagen pizza"
+                )
+            }
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Text(
+                    text = "${pizza.nombre}",
+                    style = TextStyle(
+                        fontSize = TextUnit(30F, TextUnitType.Sp)
+                    ),
+                    modifier = Modifier.padding(horizontal = 30.dp)
+                )
+                Text(
+                    text = "${pizza.precio} €",
+                    style = TextStyle(
+                        fontSize = TextUnit(30F, TextUnitType.Sp)
+                    ),
+                    modifier = Modifier
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(vertical = 10.dp)
+            ) {
+                LazyColumn() {
+                    items(pizza.ingredientes.count()) {
+                        personalizarIngrediente(ingrediente = pizza.ingredientes[it])
+                    }
+                }
+            }
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Button(
+                    onClick = { añadirPizzaPersonalizadAlCarro(pizza) },
+                    modifier = Modifier,
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+                ) {
+                    Text(text = "Añadir al carro", color = Color.Green)
+                }
+            }
+        }
     }
+
+    @Composable
+    fun personalizarIngrediente(ingrediente: String) {
+        Column() {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Text(
+                    text = ingrediente,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                )
+                val checked = remember { mutableStateOf(false) }
+                Checkbox(checked = checked.value, onCheckedChange = {
+                    checked.value = it
+                    cambiarEstadoIngrediente(checked.value, ingrediente)
+                })
+            }
+        }
+    }
+
 }

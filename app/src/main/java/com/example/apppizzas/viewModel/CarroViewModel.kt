@@ -3,21 +3,23 @@ package com.example.apppizzas.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Toast
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CarroViewModel(application: Application) : AndroidViewModel(application) {
-    var sharedPreferences: SharedPreferences = application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
+    var sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-    lateinit var carro:MutableList<PizzaModel>
-    val carro_liveData: MutableLiveData<MutableList<PizzaModel>> by lazy{
+    lateinit var carro: MutableList<PizzaModel>
+    val carro_liveData: MutableLiveData<MutableList<PizzaModel>> by lazy {
         MutableLiveData<MutableList<PizzaModel>>()
     }
-    public fun updateCart(){
+
+    public fun updateCart() {
         viewModelScope.launch {
             carro = mutableListOf()
             for (i in 1..sharedPreferences.getInt("num_pizzas_totales", 0)) {
@@ -35,14 +37,20 @@ class CarroViewModel(application: Application) : AndroidViewModel(application) {
             carro_liveData.setValue(carro)
         }
     }
-    public fun quitar_del_carro(pizza: PizzaModel){
+
+    public fun quitar_del_carro(pizza: PizzaModel) {
         var num_pizza: Int = 0
         viewModelScope.launch {
             for (i in 1..sharedPreferences.getInt("num_pizzas_totales", 0)) {
                 if (pizza.nombre == sharedPreferences.getString("nombre_${i}", "") &&
                     pizza.precio.equals(sharedPreferences.getFloat("precio_${i}", 0f)) &&
-                    pizza.ingredientes.containsAll(sharedPreferences.getStringSet("ingredientes_${i}", mutableSetOf())!!)
-                ){
+                    pizza.ingredientes.containsAll(
+                        sharedPreferences.getStringSet(
+                            "ingredientes_${i}",
+                            mutableSetOf()
+                        )!!
+                    )
+                ) {
                     num_pizza = i
                     break
                 }
@@ -60,6 +68,6 @@ class CarroViewModel(application: Application) : AndroidViewModel(application) {
     }
 }
 
-interface funcionalidad_boton_quitar{
+interface funcionalidad_boton_quitar {
     fun quitar_del_carro(pizza: PizzaModel)
 }

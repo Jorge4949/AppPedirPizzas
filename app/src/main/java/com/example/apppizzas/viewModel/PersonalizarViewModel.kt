@@ -3,20 +3,22 @@ package com.example.apppizzas.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.CheckBox
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
 import kotlinx.coroutines.launch
 
 class PersonalizarViewModel(application: Application) : AndroidViewModel(application) {
-    var sharedPreferences: SharedPreferences = application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
+    var sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
 
     lateinit var ingredientes_personalizados: MutableSet<String>
+
     init {
         inicializarDatos()
     }
+
     public fun añadirPizzaPersonalizadAlCarro(pizza: PizzaModel) {
         viewModelScope.launch {
             var num_pizzas_totales = sharedPreferences.getInt("num_pizzas_totales", 0)
@@ -38,22 +40,23 @@ class PersonalizarViewModel(application: Application) : AndroidViewModel(applica
 
     private fun inicializarDatos() {
         viewModelScope.launch {
-            ingredientes_personalizados = sharedPreferences.getStringSet("ingredientes", mutableSetOf()) as MutableSet<String>
+            ingredientes_personalizados = mutableSetOf()
         }
     }
 
-    public fun cambiarEstadoIngrediente(checkbox: CheckBox){
+    public fun cambiarEstadoIngrediente(checked: Boolean, ingrediente: String) {
         viewModelScope.launch {
-            if (checkbox.isChecked){
-                ingredientes_personalizados?.add(checkbox.text.toString())
-            }else{
-                ingredientes_personalizados?.remove(checkbox.text.toString())
+            if (checked) {
+                ingredientes_personalizados?.add(ingrediente)
+            } else {
+                ingredientes_personalizados?.remove(ingrediente)
             }
         }
     }
 
 }
-interface funcionalidad_personalizada{
+
+interface funcionalidad_personalizada {
     fun añadirPizzaPersonalizadAlCarro(pizzaModel: PizzaModel)
-    fun cambiarEstadoIngrediente(checkbox:CheckBox)
+    fun cambiarEstadoIngrediente(checked: Boolean, ingrediente: String)
 }
