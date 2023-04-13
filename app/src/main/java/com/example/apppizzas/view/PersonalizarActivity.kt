@@ -3,7 +3,6 @@ package com.example.apppizzas.view
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -26,11 +25,10 @@ import androidx.compose.ui.unit.dp
 import com.example.apppizzas.R
 import com.example.apppizzas.model.PizzaModel
 import com.example.apppizzas.viewModel.PersonalizarViewModel
-import com.example.apppizzas.viewModel.funcionalidad_personalizada
+import org.koin.androidx.compose.koinViewModel
 
-class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
+class PersonalizarActivity : AppCompatActivity() {
     lateinit var context: Context
-    val viewModel: PersonalizarViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +42,8 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
         }
     }
 
-    override fun añadirPizzaPersonalizadAlCarro(pizza: PizzaModel) {
-        viewModel.añadirPizzaPersonalizadAlCarro(pizza)
-    }
-
-    override fun cambiarEstadoIngrediente(checked: Boolean, ingrediente: String) {
-        viewModel.cambiarEstadoIngrediente(checked, ingrediente)
-    }
-
     @Composable
-    fun personalizarPizza(pizza: PizzaModel) {
+    fun personalizarPizza(pizza: PizzaModel, viewModel: PersonalizarViewModel = koinViewModel()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,7 +85,7 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Button(
-                    onClick = { añadirPizzaPersonalizadAlCarro(pizza) },
+                    onClick = { viewModel.añadirPizzaPersonalizadAlCarro(pizza) },
                     modifier = Modifier,
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
                 ) {
@@ -106,7 +96,10 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
     }
 
     @Composable
-    fun personalizarIngrediente(ingrediente: String) {
+    fun personalizarIngrediente(
+        ingrediente: String,
+        viewModel: PersonalizarViewModel = koinViewModel()
+    ) {
         Column() {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
@@ -116,7 +109,7 @@ class PersonalizarActivity : AppCompatActivity(), funcionalidad_personalizada {
                 val checked = remember { mutableStateOf(false) }
                 Checkbox(checked = checked.value, onCheckedChange = {
                     checked.value = it
-                    cambiarEstadoIngrediente(checked.value, ingrediente)
+                    viewModel.cambiarEstadoIngrediente(checked.value, ingrediente)
                 })
             }
         }

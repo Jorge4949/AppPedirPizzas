@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
 import com.example.apppizzas.view.PersonalizarActivity
 import kotlinx.coroutines.launch
 
-
-class ListViewModel(application: Application) : AndroidViewModel(application) {
+class ListViewModel(application: Application) : ViewModel() {
     var context: Context = application.baseContext
 
     var sharedPreferences: SharedPreferences =
@@ -51,9 +51,4 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
-}
-
-interface funcionalidad_botones_list {
-    fun añadirPizzaAlCarro(pizza: PizzaModel)
-    fun mostrarPersonalizar(pizza: PizzaModel)
 }

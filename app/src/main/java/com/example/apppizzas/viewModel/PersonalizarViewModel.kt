@@ -4,11 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
 import kotlinx.coroutines.launch
 
-class PersonalizarViewModel(application: Application) : AndroidViewModel(application) {
+class PersonalizarViewModel(application: Application) : ViewModel() {
     var sharedPreferences: SharedPreferences =
         application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -54,9 +55,4 @@ class PersonalizarViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-}
-
-interface funcionalidad_personalizada {
-    fun añadirPizzaPersonalizadAlCarro(pizzaModel: PizzaModel)
-    fun cambiarEstadoIngrediente(checked: Boolean, ingrediente: String)
 }

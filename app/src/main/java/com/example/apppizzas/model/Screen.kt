@@ -1,4 +1,4 @@
-package com.example.apppizzas.view
+package com.example.apppizzas.model
 
 import com.example.apppizzas.R
 

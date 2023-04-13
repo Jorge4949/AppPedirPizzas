@@ -5,11 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apppizzas.model.PizzaModel
 import kotlinx.coroutines.launch
 
-class CarroViewModel(application: Application) : AndroidViewModel(application) {
+class CarroViewModel(application: Application) : ViewModel() {
     var sharedPreferences: SharedPreferences =
         application.getSharedPreferences("listado_pizzas", Context.MODE_PRIVATE)
     var editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -66,8 +67,4 @@ class CarroViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-}
-
-interface funcionalidad_boton_quitar {
-    fun quitar_del_carro(pizza: PizzaModel)
 }
